@@ -1,34 +1,34 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getAlbumsByUserId} from "./albumsApi";
+import {getPostsByUserId} from "./postsApi";
 import {RootState} from "../../app/store";
-import {IAlbums} from "./types";
+import {IPosts} from "./types";
 
-interface IAlbumsState {
-    albumsList: IAlbums[]
+interface IPostsState {
+    postsList: IPosts[]
 }
 
-const initialState: IAlbumsState = {
-    albumsList: [],
+const initialState: IPostsState = {
+    postsList: [],
 };
 
-export const getAlbums = createAsyncThunk(
-    'albums/getAlbumsByUserId',
+export const getPosts = createAsyncThunk(
+    'posts/getAlbumsByUserId',
     async (userId: number) => {
-        return await getAlbumsByUserId(userId);
+        return await getPostsByUserId(userId);
     }
 );
 
-export const albumsSlice = createSlice({
-    name: 'albums',
+export const postsSlice = createSlice({
+    name: 'posts',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getAlbums.fulfilled,(state, action) => {
-            state.albumsList = action?.payload;
+        builder.addCase(getPosts.fulfilled,(state, action) => {
+            state.postsList = action?.payload;
         })
     }
 })
 
-export const selectAlbums = (state: RootState) => state.albums.albumsList;
+export const selectPosts = (state: RootState) => state.posts.postsList;
 
-export default albumsSlice.reducer;
+export default postsSlice.reducer;

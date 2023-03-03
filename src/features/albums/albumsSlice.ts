@@ -1,34 +1,34 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getUsers} from "./usersApi";
+import {getAlbumsByUserId} from "./albumsApi";
 import {RootState} from "../../app/store";
-import {IUser} from "./types";
+import {IAlbums} from "./types";
 
-interface IUserState {
-    usersList: IUser[]
+interface IAlbumsState {
+    albumsList: IAlbums[]
 }
 
-const initialState: IUserState = {
-    usersList: [],
+const initialState: IAlbumsState = {
+    albumsList: [],
 };
 
-export const getAllUsers = createAsyncThunk(
-    'users/getUsers',
-    async () => {
-        return await getUsers();
+export const getAlbums = createAsyncThunk(
+    'albums/getAlbumsByUserId',
+    async (userId: number) => {
+        return await getAlbumsByUserId(userId);
     }
 );
 
-export const usersSlice = createSlice({
-    name: 'users',
+export const albumsSlice = createSlice({
+    name: 'albums',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getAllUsers.fulfilled,(state, action) => {
-            state.usersList = action?.payload;
+        builder.addCase(getAlbums.fulfilled,(state, action) => {
+            state.albumsList = action?.payload;
         })
     }
 })
 
-export const selectUsers = (state: RootState) => state.users.usersList;
+export const selectAlbums = (state: RootState) => state.albums.albumsList;
 
-export default usersSlice.reducer;
+export default albumsSlice.reducer;
